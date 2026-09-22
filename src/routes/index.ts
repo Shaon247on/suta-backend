@@ -1,14 +1,14 @@
-import { Router, Request, Response } from 'express';
+import { Router, Response } from "express";
 
 const router = Router();
 
 // Health check endpoint (used by Render and the CI pipeline)
-router.get('/health', (req: Request, res: Response) => {
+router.get("/health", (_, res: Response) => {
   res.status(200).json({
-    status: 'ok',
-    message: 'Suta backend is healthy',
+    status: "ok",
+    message: "Suta backend is healthy",
     timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development',
+    environment: process.env.NODE_ENV || "development",
   });
 });
 
