@@ -1,15 +1,16 @@
 import { Router, Response } from "express";
+import { prisma } from "../lib/prisma";
 
 const router = Router();
 
 // Health check endpoint (used by Render and the CI pipeline)
-router.get("/health", (_, res: Response) => {
-  res.status(200).json({
-    status: "ok",
-    message: "Suta backend is healthy",
-    timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || "development",
-  });
+router.get('/health/db', async (req, res) => {
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    res.status(200).json({ status: 'ok', database: 'connected' });
+  } catch (error) {
+    res.status(500).json({ status: 'error', database: 'disconnected' });
+  }
 });
 
 // Future feature routes will be added here:
