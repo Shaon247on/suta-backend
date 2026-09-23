@@ -1,10 +1,10 @@
-import { Router, Response } from "express";
+import { Router } from "express";
 import { prisma } from "../lib/prisma";
 
 const router = Router();
 
 // Health check endpoint (used by Render and the CI pipeline)
-router.get('/health/db', async (req, res) => {
+router.get('/health/db', async (_, res) => {
   try {
     await prisma.$queryRaw`SELECT 1`;
     res.status(200).json({ status: 'ok', database: 'connected' });
